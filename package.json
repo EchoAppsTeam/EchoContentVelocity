@@ -1,0 +1,30 @@
+{
+  "name": "echo-content-velocity",
+  "description": "Echo Content Velocity app",
+  "version": "1.0.0",
+  "author": {
+    "name": "Echo",
+    "url": "http://aboutecho.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/EchoAppsTeam/EchoContentVelocity.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EchoAppsTeam/EchoContentVelocity/issues"
+  },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "engines": {
+    "node": ">=0.10"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "cloudapp-boilerplate": "^0.2.0"
+  },
+  "private": true
+}

@@ -1,0 +1,19 @@
+{
+	"version": 1,
+	"manifest": {
+		"id": "echo-content-velocity-staging",
+		"name": "Content Velocity (Staging)"
+	},
+	"appBaseURLs": {
+		"dev": "//echoplatform.com/sandbox/staging<%= release.options.versionPath() %>/dev",
+		"prod": "//echoplatform.com/sandbox/staging<%= release.options.versionPath() %>"
+	},
+	"apiBaseURLs": {
+		"StreamServer": {
+			"basic": "//api.dss.ul.js-kit.com/v1",
+			"ws": "//live.dss.ul.js-kit.com/v1"
+		},
+		"DataServer": "http://ds0.ul.js-kit.com/api",
+		"AppServer": "http://api.staging.appserver.aboutecho.com"
+	}
+}

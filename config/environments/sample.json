@@ -1,0 +1,19 @@
+{
+	"version": 1,
+	"manifest": {
+		"id": "",
+		"name": ""
+	},
+	"appBaseURLs": {
+		"dev": "",
+		"prod": ""
+	},
+	"apiBaseURLs": {
+		"StreamServer": {
+			"basic": "",
+			"ws": ""
+		},
+		"DataServer": "",
+		"AppServer": ""
+	}
+}

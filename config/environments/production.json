@@ -1,0 +1,19 @@
+{
+	"version": 1,
+	"manifest": {
+		"id": "echo-content-velocity",
+		"name": "Content Velocity"
+	},
+	"appBaseURLs": {
+		"dev": "//cdn.echoenabled.com<%= release.options.versionPath() %>/dev",
+		"prod": "//cdn.echoenabled.com<%= release.options.versionPath() %>"
+	},
+	"apiBaseURLs": {
+		"StreamServer": {
+			"basic": "//api.echoenabled.com/v1",
+			"ws": "//live.echoenabled.com/v1"
+		},
+		"DataServer": "https://api.dataserver.echoenabled.com/v1",
+		"AppServer": "http://api.appserver.aboutecho.com"
+	}
+}
