@@ -1,7 +1,7 @@
 {
 	"id": "{%=manifest.id%}",
 	"name": "{%=manifest.name%}",
-	"description": "Display the rate of new content as a real-time guage.",
+	"description": "Display the rate of new content as a real-time gauge.",
 	"app_version": "{%=packageVersions.stable%}",
 	"icon": "{%=appBaseURLs.prod%}/images/icon.png",
 	"developer": {

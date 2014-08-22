@@ -2,7 +2,7 @@
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Echo Content Velocity app allows to display the rate of new content as a real-time guage.
+Echo Content Velocity app allows to display the rate of new content as a real-time gauge.
 
 
 # Installation instructions
