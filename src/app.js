@@ -99,6 +99,13 @@ velocity.init = function() {
 		app.set("watchers.visibility", watcher);
 	}
 
+	// we deliberately define "itemsSeen" here, since we need
+	// to preserve through the app "refresh" function call, placing
+	// it into "vars" will nullify the value
+	if (!app.get("itemsSeen")) {
+		app.set("itemsSeen", {});
+	}
+
 	app.request = app._getRequestObject();
 
 	var data = app.get("data");
@@ -195,6 +202,7 @@ velocity.methods._calculateCurrentVelocity = function() {
 	var period = this.get("period");
 	var maxIntervals = this.config.get("maxIntervals");
 	var intervals = new Array(maxIntervals);
+	var itemsSeen = this.get("itemsSeen");
 	$.each(this.config.get("data.entries", []), function(_, entry) {
 		entry = app._normalizeEntry(entry);
 		// if item is within the last "maxIntervals" periods...
@@ -202,6 +210,7 @@ velocity.methods._calculateCurrentVelocity = function() {
 		if (diff < maxIntervals * period.interval) {
 			var id = Math.round(diff / period.interval);
 			intervals[id] = intervals[id] ? intervals[id] + 1 : 1;
+			itemsSeen[entry.object.id] = true;
 		}
 	});
 
@@ -386,9 +395,15 @@ velocity.methods.handlers.onData = function(data) {
 velocity.methods.handlers.onUpdate = function(data) {
 	if (data && data.entries) {
 		var max = this.config.get("maxItemsToRetrieve");
+		var itemsSeen = this.get("itemsSeen");
 		var oldEntries = this.config.get("data.entries", []);
 		var newEntries = $.grep(data.entries, function(entry) {
-			return (entry.verbs[0] === "http://activitystrea.ms/schema/1.0/post");
+			if (!itemsSeen[entry.object.id] &&
+				entry.verbs[0] === "http://activitystrea.ms/schema/1.0/post") {
+					itemsSeen[entry.object.id] = true;
+					return true;
+			}
+			return false;
 		});
 		data.entries = newEntries.concat(oldEntries).slice(0, max);
 		this.config.set("data", data);
