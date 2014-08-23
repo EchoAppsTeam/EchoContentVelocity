@@ -56,8 +56,8 @@ dashboard.config.ecl = [{
 		"type": "boolean",
 		"default": true,
 		"config": {
-			"title": "Render gauge",
-			"desc": "Specifies if a gauge should be rendered as a part of the application UI"
+			"title": "Display gauge",
+			"desc": "If true, a visual gauge will be displayed"
 		}
 	}, {
 		"component": "Input",
@@ -75,8 +75,8 @@ dashboard.config.ecl = [{
 		"type": "string",
 		"default": "#000000",
 		"config": {
-			"title": "Gauge pointer color",
-			"desc": "Specifies gauge pointer color",
+			"title": "Gauge needle color",
+			"desc": "Specifies the color of the gauge needle",
 			"data": {"sample": "#000000"}
 		}
 	}, {
@@ -85,8 +85,8 @@ dashboard.config.ecl = [{
 		"type": "string",
 		"default": "#8FC0DA",
 		"config": {
-			"title": "Gauge active color",
-			"desc": "Specifies gauge active color",
+			"title": "Gauge fill color",
+			"desc": "Specifies the color used to fill the gauge",
 			"data": {"sample": "#8FC0DA"}
 		}
 	}, {
@@ -96,7 +96,7 @@ dashboard.config.ecl = [{
 		"default": "#E0E0E0",
 		"config": {
 			"title": "Gauge background color",
-			"desc": "Specifies gauge background color",
+			"desc": "Specifies the background color of the gauge",
 			"data": {"sample": "#E0E0E0"}
 		}
 	}]

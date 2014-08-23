@@ -9,12 +9,13 @@ velocity.vars = {
 	"gauge": undefined,
 	"period": undefined,
 	"visible": true,
-	"velocity": {},
+	"velocity": undefined,
 	"watchers": {}
 };
 
 velocity.config = {
 	"targetURL": undefined,
+	"defaultMaxValue": 20,
 
 	// amount of items to retrieve from StreamServer
 	// 100 is the limitation on the amount of root items
@@ -163,8 +164,17 @@ velocity.methods._initGauge = function(target) {
 		"strokeColor": presentation.gaugeBackgroundColor
 	});
 	var gauge = new window.Gauge(target.get(0)).setOptions(opts);
-	gauge.maxValue = velocity.max * 10; // set max gauge value
-	gauge.set(velocity.avg * 10); // set actual value
+
+	// set max gauge value,
+	// we multiply by 10 since Gauge lib doesn't like floats
+	gauge.maxValue = velocity.max * 10;
+
+	// set actual gauge value,
+	// if it's 0, we use non-zero number to let the Gauge
+	// library know that we want needle to be rendered (if value is 0
+	// no needle is rendered)
+	gauge.set(velocity.avg * 10 || 0.1);
+
 	return gauge;
 };
 
@@ -216,8 +226,13 @@ velocity.methods._calculateCurrentVelocity = function() {
 			}
 		}
 	);
-	velocity.avg = (velocity.sum / (velocity.intervals || 1)).toFixed(1);
-	this.set("velocity", velocity);
+
+	// preserve existing "max" value to avoid gauge rerendering
+	if (!this.get("velocity.max")) {
+		this.set("velocity.max", velocity.max || this.config.get("defaultMaxValue"));
+	}
+
+	this.set("velocity.avg", (velocity.sum / (velocity.intervals || 1)).toFixed(1));
 };
 
 velocity.methods._updateVelocityInfo = function() {
@@ -348,7 +363,10 @@ velocity.methods.handlers.onData = function(data) {
 		this.config.set("data", data);
 	}
 
-	this.set("period", this._getPeriodResolutionType());
+	// preserve period resolution time
+	if (!this.get("period")) {
+		this.set("period", this._getPeriodResolutionType());
+	}
 
 	this.set("watchers.update", this._createUpdateWatcher());
 	this.get("watchers.update").start();
