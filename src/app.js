@@ -140,7 +140,7 @@ velocity.templates.main =
 
 velocity.renderers.container = function(element) {
 	return element.css({
-		"max-width": parseInt(this.config.get("presentation.maxWidth") + "px")
+		"max-width": parseInt(this.config.get("presentation.maxWidth"))
 	});
 };
 
