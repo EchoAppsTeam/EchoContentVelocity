@@ -34,7 +34,6 @@ velocity.config = {
 		"gaugeBackgroundColor": "#E0E0E0" // gauge background color
 	},
 	"gauge": {
-		"lines": 12,       // number of lines to draw
 		"angle": 0.15,     // length of each line
 		"lineWidth": 0.44, // line thickness
 		"pointer": {
