@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Echo Content Velocity app v{%=packageVersions.stable%} Demo</title>
+		<script type="text/javascript" src="//cdn.echoenabled.com/sdk/v3/dev/loader.js"></script>
+		<script type="text/javascript" src="{%= appBaseURLs.dev %}/third-party/gauge.min.js"></script>
+	</head>
+<body>
+
+<center><h1>Gauge (#puppies)</h1></center>
+<div id="container-gauge" style="margin: 0px auto; width: 50%; max-width: 440px;"></div>
+
+<br>
+<br>
+
+<center><h1>No Gauge (#puppies)</h1></center>
+<div id="container-nogauge" style="margin: 0px auto; width: 50%; max-width: 440px;"></div>
+
+<script type="text/javascript">
+	Echo.Loader.initApplication({
+		"scripts": {
+			"dev": "{%= appBaseURLs.dev %}/app.js",
+			"prod": "{%= appBaseURLs.prod %}/app.js"
+		},
+		"component": "Echo.Apps.ContentVelocity",
+		"config": {
+			"target": document.getElementById("container-gauge"),
+			"targetURL": "http://social-chatter.echoplatform.com/social-source-input/fm703jjma7",
+			"dependencies": {
+				"StreamServer": {"appkey": "echo.echo.streamserver.echo.prod"}
+			}
+		}
+	});
+
+	Echo.Loader.initApplication({
+		"scripts": {
+			"dev": "{%= appBaseURLs.dev %}/app.js",
+			"prod": "{%= appBaseURLs.prod %}/app.js"
+		},
+		"component": "Echo.Apps.ContentVelocity",
+		"config": {
+			"target": document.getElementById("container-no-gauge"),
+			"targetURL": "http://social-chatter.echoplatform.com/social-source-input/fm703jjma7",
+			"presentation": {
+				"gauge": false
+			},
+			"dependencies": {
+				"StreamServer": {"appkey": "echo.echo.streamserver.echo.prod"}
+			}
+		}
+	});
+</script>
+
+</body>
+</html>
