@@ -205,7 +205,7 @@ velocity.methods._calculateCurrentVelocity = function() {
 		// if item is within the last "maxIntervals" periods...
 		var diff = now - entry.timestamp;
 		if (diff < maxIntervals * period.interval) {
-			var id = Math.round(diff / period.interval);
+			var id = Math.floor(diff / period.interval);
 			intervals[id] = intervals[id] ? intervals[id] + 1 : 1;
 			itemsSeen[entry.object.id] = true;
 		}
