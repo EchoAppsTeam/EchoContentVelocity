@@ -34,11 +34,8 @@ velocity.config = {
 		"gaugeBackgroundColor": "#E0E0E0" // gauge background color
 	},
 	"gauge": {
-		"angle": 0.15,     // length of each line
-		"lineWidth": 0.44, // line thickness
 		"pointer": {
-			"length": 0.75,      // radius of the inner circle
-			"strokeWidth": 0.035 // rotation offset
+			"length": 0.75      // radius of the inner circle
 		}
 	},
 	"dependencies": {
@@ -57,11 +54,11 @@ velocity.config = {
 };
 
 velocity.labels = {
-	"per_min": "per minute",
-	"per_hour": "per hour",
-	"per_day": "per day",
-	"per_month": "per month",
-	"per_year": "per year"
+	"perMin": "per minute",
+	"perHour": "per hour",
+	"perDay": "per day",
+	"perMonth": "per month",
+	"perYear": "per year"
 };
 
 velocity.dependencies = [{
@@ -149,7 +146,8 @@ velocity.renderers.count = function(element) {
 };
 
 velocity.renderers.unit = function(element) {
-	return element.text(this.labels.get("per_" + this.get("period.type")));
+	var label = "per" + Echo.Utils.capitalize(this.get("period.type"));
+	return element.text(this.labels.get(label));
 };
 
 velocity.renderers.gauge = function(element) {
@@ -404,7 +402,14 @@ velocity.methods.handlers.onUpdate = function(data) {
 			}
 			return false;
 		});
-		data.entries = newEntries.concat(oldEntries).slice(0, max);
+		var allEntries = newEntries.concat(oldEntries);
+		data.entries = allEntries.slice(0, max);
+		// cleanup itemsSeen object to prevent memory bloats
+		if (max < allEntries.length) {
+			$.map(allEntries.slice(max), function(entry) {
+				delete itemsSeen[entry.object.id];
+			});
+		}
 		this.config.set("data", data);
 	}
 	this._updateVelocityInfo();
