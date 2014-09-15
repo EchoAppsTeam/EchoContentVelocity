@@ -23,6 +23,10 @@ dashboard.dependencies = [{
 }, {
 	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
 	"control": "Echo.DataServer.Controls.Pack"
+}, {
+	"url": "//cdn.echoenabled.com/apps/echo/social-map/v1/slider.js"
+}, {
+	"url": "//cdn.echoenabled.com/apps/echo/social-map/v1/colorpicker.js"
 }];
 
 dashboard.config = {
@@ -60,17 +64,7 @@ dashboard.config.ecl = [{
 			"desc": "If true, a visual gauge will be displayed"
 		}
 	}, {
-		"component": "Input",
-		"name": "maxWidth",
-		"type": "number",
-		"default": 300,
-		"config": {
-			"title": "Maximum width",
-			"desc": "Specifies a maximum width (in pixels) of an App container",
-			"data": {"sample": 300}
-		}
-	}, {
-		"component": "Input",
+		"component": "Colorpicker",
 		"name": "pointerColor",
 		"type": "string",
 		"default": "#000000",
@@ -80,7 +74,7 @@ dashboard.config.ecl = [{
 			"data": {"sample": "#000000"}
 		}
 	}, {
-		"component": "Input",
+		"component": "Colorpicker",
 		"name": "gaugeActiveColor",
 		"type": "string",
 		"default": "#8FC0DA",
@@ -90,7 +84,7 @@ dashboard.config.ecl = [{
 			"data": {"sample": "#8FC0DA"}
 		}
 	}, {
-		"component": "Input",
+		"component": "Colorpicker",
 		"name": "gaugeBackgroundColor",
 		"type": "string",
 		"default": "#E0E0E0",
@@ -99,13 +93,27 @@ dashboard.config.ecl = [{
 			"desc": "Specifies the background color of the gauge",
 			"data": {"sample": "#E0E0E0"}
 		}
+	}, {
+		"component": "Slider",
+		"name": "maxWidth",
+		"type": "number",
+		"default": 300,
+		"config": {
+			"title": "Maximum width",
+			"desc": "Specifies a maximum width (in pixels) of an App container",
+			"min": 100,
+			"max": 500,
+			"step": 10,
+			"unit": "px"
+		}
 	}]
 }, {
 	"component": "Group",
 	"name": "dependencies",
 	"type": "object",
 	"config": {
-		"title": "Dependencies"
+		"title": "Dependencies",
+		"expanded": false
 	},
 	"items": [{
 		"component": "Select",
