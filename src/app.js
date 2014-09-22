@@ -261,18 +261,38 @@ velocity.methods._getPeriodResolutionType = function() {
 	}
 
 	if (avg < 60 * 60) {
-		return {"type": "min", "interval": 60};
+		return {
+			"type": "min",
+			"interval": 60,
+			"refreshTimeout": 10
+		};
 	}
 	if (avg < 60 * 60 * 24) {
-		return {"type": "hour", "interval": 60 * 60};
+		return {
+			"type": "hour",
+			"interval": 60 * 60,
+			"refreshTimeout": 30
+		};
 	}
 	if (avg < 60 * 60 * 24 * 7) {
-		return {"type": "day", "interval": 60 * 60 * 24};
+		return {
+			"type": "day",
+			"interval": 60 * 60 * 24,
+			"refreshTimeout": 60
+		};
 	}
 	if (avg < 60 * 60 * 24 * 365) {
-		return {"type": "month", "interval": 60 * 60 * 24 * 30};
+		return {
+			"type": "month",
+			"interval": 60 * 60 * 24 * 30,
+			"refreshTimeout": 60 * 2
+		};
 	}
-	return {"type": "year", "interval": 60 * 60 * 24 * 365};
+	return {
+		"type": "year",
+		"interval": 60 * 60 * 24 * 365,
+		"refreshTimeout": 60 * 3
+	};
 };
 
 velocity.methods._assembleQuery = function() {
@@ -307,7 +327,7 @@ velocity.methods._createUpdateWatcher = function() {
 		timeout = setTimeout(function() {
 			app._updateVelocityInfo();
 			start();
-		}, app.get("period.interval") * 1000);
+		}, app.get("period.refreshTimeout") * 1000);
 	};
 	return {
 		"start": start,
@@ -390,29 +410,28 @@ velocity.methods.handlers.onData = function(data) {
 };
 
 velocity.methods.handlers.onUpdate = function(data) {
-	if (data && data.entries) {
-		var max = this.config.get("maxItemsToRetrieve");
-		var itemsSeen = this.get("itemsSeen");
-		var oldEntries = this.config.get("data.entries", []);
-		var newEntries = $.grep(data.entries, function(entry) {
-			if (!itemsSeen[entry.object.id] &&
-				entry.verbs[0] === "http://activitystrea.ms/schema/1.0/post") {
-					itemsSeen[entry.object.id] = true;
-					return true;
-			}
-			return false;
-		});
-		var allEntries = newEntries.concat(oldEntries);
-		data.entries = allEntries.slice(0, max);
-		// cleanup itemsSeen object to prevent memory bloats
-		if (max < allEntries.length) {
-			$.map(allEntries.slice(max), function(entry) {
-				delete itemsSeen[entry.object.id];
-			});
+	if (!data || !data.entries) return;
+
+	var max = this.config.get("maxItemsToRetrieve");
+	var itemsSeen = this.get("itemsSeen");
+	var oldEntries = this.config.get("data.entries", []);
+	var newEntries = $.grep(data.entries, function(entry) {
+		if (!itemsSeen[entry.object.id] &&
+			entry.verbs[0] === "http://activitystrea.ms/schema/1.0/post") {
+				itemsSeen[entry.object.id] = true;
+				return true;
 		}
-		this.config.set("data", data);
+		return false;
+	});
+	var allEntries = newEntries.concat(oldEntries);
+	data.entries = allEntries.slice(0, max);
+	// cleanup itemsSeen object to prevent memory bloats
+	if (max < allEntries.length) {
+		$.map(allEntries.slice(max), function(entry) {
+			delete itemsSeen[entry.object.id];
+		});
 	}
-	this._updateVelocityInfo();
+	this.config.set("data", data);
 };
 
 velocity.methods.handlers.onError = function(data, options) {
