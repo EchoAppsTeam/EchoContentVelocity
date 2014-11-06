@@ -26,20 +26,6 @@ dashboard.dependencies = [{
 }];
 
 dashboard.config.ecl = [{
-	"name": "targetURL",
-	"component": "Echo.DataServer.Controls.Dashboard.DataSourceGroup",
-	"type": "string",
-	"required": true,
-	"config": {
-		"title": "",
-		"labels": {
-			"dataserverBundleName": "Echo Historical Volume Auto-Generated Bundle for {instanceName}"
-		},
-		"apiBaseURLs": {
-			"DataServer": "{%= apiBaseURLs.DataServer %}/"
-		}
-	}
-}, {
 	"component": "Group",
 	"name": "presentation",
 	"type": "object",
@@ -117,6 +103,21 @@ dashboard.config.ecl = [{
 			"options": []
 		}
 	}]
+}, {
+	"name": "targetURL",
+	"component": "Echo.DataServer.Controls.Dashboard.DataSourceGroup",
+	"type": "string",
+	"required": true,
+	"config": {
+		"title": "",
+		"expanded": false,
+		"labels": {
+			"dataserverBundleName": "Echo Historical Volume Auto-Generated Bundle for {instanceName}"
+		},
+		"apiBaseURLs": {
+			"DataServer": "{%= apiBaseURLs.DataServer %}/"
+		}
+	}
 }];
 
 dashboard.modifiers = {
