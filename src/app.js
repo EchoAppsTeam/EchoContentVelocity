@@ -54,6 +54,7 @@ velocity.config = {
 };
 
 velocity.labels = {
+	"noData": "No data yet.<br>Stay tuned!",
 	"perMin": "per minute",
 	"perHour": "per hour",
 	"perDay": "per day",
@@ -135,6 +136,11 @@ velocity.templates.main =
 		'</div>' +
 	'</div>';
 
+velocity.templates.empty =
+	'<div class="{class:empty}">' +
+		'<span class="{class:message}">{label:noData}</span>' +
+	'</div>';
+
 velocity.renderers.container = function(element) {
 	return element.css({
 		"max-width": parseInt(this.config.get("presentation.maxWidth"))
@@ -155,6 +161,15 @@ velocity.renderers.gauge = function(element) {
 		element.hide();
 	}
 	return element;
+};
+
+velocity.methods.template = function() {
+	return this.templates[this._hasData() ? "main" : "empty"];
+};
+
+velocity.methods._hasData = function() {
+	var entries = this.config.get("data.entries", []);
+	return !!entries.length;
 };
 
 velocity.methods._initGauge = function(target) {
@@ -402,7 +417,7 @@ velocity.methods.handlers.onData = function(data) {
 	this.render();
 
 	// we init gauge *only* after a target is placed into DOM
-	if (this.config.get("presentation.gauge")) {
+	if (this._hasData() && this.config.get("presentation.gauge")) {
 		this.set("gauge", this._initGauge(this.view.get("gauge")));
 	}
 
@@ -451,7 +466,9 @@ velocity.css =
 	'.{class:count} { text-align: center; font-size: 50px; }' +
 	'.{class:unit} { text-align: center; font-size: 14px; }' +
 	'.{class:container} { margin: 0px auto 10px; }' +
-	'.{class:gauge} { width: 100%; }';
+	'.{class:gauge} { width: 100%; }' +
+	'.{class:empty} { border: 1px solid #d2d2d2; background-color: #fff; margin: 0 5px 10px 5px; padding: 30px 20px; text-align: center; }' +
+	'.{class:empty} .{class:message} { background: url("//cdn.echoenabled.com/apps/echo/conversations/v2/sdk-derived/images/info.png") no-repeat; margin: 0 auto; font-size: 14px; font-family: "Helvetica Neue", Helvetica, "Open Sans", sans-serif; padding-left: 40px; display: inline-block; text-align: left; line-height: 16px; color: #7f7f7f; }';
 
 Echo.App.create(velocity);
 
