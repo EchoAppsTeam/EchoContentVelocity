@@ -1,9 +1,5 @@
 {
-	"version": 1,
-	"manifest": {
-		"id": "echo-content-velocity",
-		"name": "Content Velocity"
-	},
+	"version": 2,
 	"appBaseURLs": {
 		"dev": "//cdn.echoplatform.com<%= release.options.versionPath() %>/dev",
 		"prod": "//cdn.echoplatform.com<%= release.options.versionPath() %>"
