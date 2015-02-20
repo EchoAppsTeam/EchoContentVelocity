@@ -1,6 +1,6 @@
 {
 	"id": "echo-content-velocity",
-	"name": "Content Velocity",
+	"name": "Velocity",
 	"description": "Display the rate of new content as a real-time gauge.",
 	"app_version": "{%=packageVersions.stable%}",
 	"icon": "{%=appBaseURLs.prod%}/images/icon.png",
